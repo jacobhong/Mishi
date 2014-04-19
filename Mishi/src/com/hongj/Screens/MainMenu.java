@@ -1,5 +1,9 @@
 package com.hongj.Screens;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -8,6 +12,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -15,23 +22,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.hongj.mishi.Mishi;
+import com.hongj.Tween.ActorTween;
 import com.hongj.mishi.MishiActor;
+import com.hongj.mishi.MishiGame;
 
 public class MainMenu implements Screen {
 
-	private Mishi mishi;
+	private MishiGame mishi;
 	private Stage stage;
 	private Table table;
-	private TextButton buttonPlay, buttonExit;
+	private TextButton buttonPlay;
 	private Label heading;
 	private Skin skin;
 	private BitmapFont white, black;
 	private TextureAtlas atlas;
 	private TextButtonStyle textButtonStyle;
 	private ShapeRenderer backgroudColor;
+	private TweenManager manager;
 
-	public MainMenu(Mishi mishi) {
+	public MainMenu(MishiGame mishi) {
 		this.mishi = mishi;
 	}
 
@@ -46,9 +55,10 @@ public class MainMenu implements Screen {
 				Gdx.graphics.getHeight());
 		backgroudColor.end();
 
-		Table.drawDebug(stage);
+		manager.update(delta);
 
 		stage.act(delta);
+		Table.drawDebug(stage);
 		stage.draw();
 
 	}
@@ -56,7 +66,7 @@ public class MainMenu implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.setViewport(800, 480, true);
-		//
+
 	}
 
 	@Override
@@ -73,8 +83,8 @@ public class MainMenu implements Screen {
 		white = new BitmapFont(Gdx.files.internal("data/white.fnt"), false);
 		black = new BitmapFont(Gdx.files.internal("data/black.fnt"), false);
 
-		LabelStyle headingStyle = new LabelStyle(white, Color.WHITE);
-		heading = new Label(Mishi.TITLE, headingStyle);
+		heading = new Label(MishiGame.TITLE, new LabelStyle(white, Color.WHITE));
+		heading.setFontScale(1.5f);
 
 		textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.getDrawable("buttonnormal");
@@ -83,19 +93,56 @@ public class MainMenu implements Screen {
 		textButtonStyle.pressedOffsetY = -1;
 		textButtonStyle.font = black;
 
-		buttonExit = new TextButton("Play", textButtonStyle);
-		buttonExit.pad(20);
+		buttonPlay = new TextButton("Play", textButtonStyle);
+		buttonPlay.pad(20);
+
+		buttonPlay.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				mishi.setScreen(new GameScreen(mishi));
+			}
+		});
 
 		table = new Table(skin);
 		table.setFillParent(true);
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		table.add(heading);
+		table.getCell(heading).spaceBottom(100);
 		table.row();
-		table.add(buttonExit);
+		table.add(buttonPlay);
+		table.row();
+		table.add(a);
 
 		table.debug();
+
 		stage.addActor(table);
-		stage.addActor(a);
+
+		manager = new TweenManager();
+		Tween.registerAccessor(Actor.class, new ActorTween());
+		Timeline.createSequence().beginSequence()
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(0, 0, 1))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(0, 1, 0))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(1, 0, 0))
+				.end().start(manager);
+		// heading and buttons fade in
+		Timeline.createSequence().beginSequence()
+				.push(Tween.set(buttonPlay, ActorTween.ALPHA).target(0))
+				.push(Tween.to(heading, ActorTween.ALPHA, .25f).target(1))
+				.push(Tween.to(buttonPlay, ActorTween.ALPHA, .25f).target(1))
+				.end().start(manager);
+
+		// table fade in
+		Tween.from(table, ActorTween.ALPHA, .5f).target(0).start(manager);
+		Tween.from(table, ActorTween.Y, .5f)
+				.target(Gdx.graphics.getHeight() / 2).start(manager);
+
 	}
 
 	@Override

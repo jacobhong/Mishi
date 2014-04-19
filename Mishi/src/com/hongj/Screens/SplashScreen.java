@@ -16,16 +16,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.hongj.Tween.SpriteTween;
 import com.hongj.mishi.Assets;
-import com.hongj.mishi.Mishi;
+import com.hongj.mishi.MishiGame;
 
 public class SplashScreen implements Screen {
-	Mishi mishi;
+	MishiGame mishi;
 	TweenManager manager;
 	SpriteBatch batch;
 	Sprite leftLogo;
 	ShapeRenderer backgroud;
 
-	public SplashScreen(Mishi mishi) {
+	public SplashScreen(MishiGame mishi) {
 		this.mishi = mishi;
 	}
 
@@ -36,7 +36,8 @@ public class SplashScreen implements Screen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		backgroud.begin(ShapeType.FilledRectangle);
 		backgroud.setColor(147, 112, 219, .4f);
-		backgroud.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		backgroud.filledRect(0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
 
 		backgroud.end();
 		batch.begin();
@@ -62,8 +63,6 @@ public class SplashScreen implements Screen {
 		float scalex = Gdx.app.getGraphics().getWidth() / 800;
 		float scaley = Gdx.app.getGraphics().getHeight() / 480;
 
-		Gdx.app.log("scale factor x y ", scalex + " " + scaley);
-
 		leftLogo.setSize(leftLogo.getWidth() * scalex, leftLogo.getHeight()
 				* scaley);
 		leftLogo.setPosition(0, 0);
@@ -85,9 +84,10 @@ public class SplashScreen implements Screen {
 
 		};
 		Tween.to(leftLogo, SpriteTween.ALPHA, .6f).target(0)
-				.ease(TweenEquations.easeInOutQuad).delay(.8f).setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE)
-				.start(manager);
-		
+				.ease(TweenEquations.easeInOutQuad).delay(.8f).setCallback(cb)
+				.setCallbackTriggers(TweenCallback.COMPLETE).start(manager);
+		Tween.from(leftLogo, SpriteTween.ZOOM, .4f)
+				.target(99,92).start(manager);
 
 	}
 

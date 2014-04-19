@@ -13,13 +13,12 @@ public class MishiActor extends Actor {
 
 	public MishiActor() {
 		mishiAnimation = Assets.mishiAnimation;
-		
+
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-
 		batch.draw(mishiAnimation.getKeyFrame(stateTime), 0, 0);
 	}
 
@@ -27,14 +26,21 @@ public class MishiActor extends Actor {
 	public void act(float delta) {
 		super.act(delta);
 		stateTime += delta;
-		
-	
+
 	}
 
 	@Override
 	public void addAction(Action action) {
 		// TODO Auto-generated method stub
 		super.addAction(action);
+	}
+
+	@Override
+	public Actor hit(float x, float y, boolean touchable) {
+		// TODO Auto-generated method stub
+		// if (touchable && getTouchable() != Touchable.enabled) return null;
+		// return x >= 0 && x < width && y >= 0 && y < height ? this : null;
+		return super.hit(x, y, touchable);
 	}
 
 }

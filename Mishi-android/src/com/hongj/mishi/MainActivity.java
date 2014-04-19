@@ -12,6 +12,6 @@ public class MainActivity extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         
-        initialize(new Mishi(), cfg);
+        initialize(new MishiGame(), cfg);
     }
 }

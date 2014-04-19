@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Assets {
 
 	public static Animation mishiAnimation;
-	public static TextureRegion mishi, mishi2,mishi3,mishi4,mishi5;
+	public static TextureRegion mishi, mishi2, mishi3, mishi4, mishi5;
 	public static Texture texture, splashscreen;
 
 	public static void load() {
@@ -26,13 +26,14 @@ public class Assets {
 		mishi3 = new TextureRegion(texture, 405, 1, 200, 150);
 		mishi4 = new TextureRegion(texture, 607, 1, 200, 150);
 		mishi5 = new TextureRegion(texture, 809, 1, 200, 150);
-		
-		TextureRegion[] mishis = {mishi,mishi2,mishi3,mishi4,mishi5};
-		mishiAnimation = new Animation(.1f,mishis);
-		mishiAnimation.setPlayMode(Animation.LOOP_PINGPONG);
+
+		TextureRegion[] mishis = { mishi, mishi2, mishi3, mishi4, mishi5 };
+		mishiAnimation = new Animation(.1f, mishis);
+		mishiAnimation.setPlayMode(Animation.LOOP);
 	}
 
 	public static void dispose() {
 		splashscreen.dispose();
+		texture.dispose();
 	}
 }
