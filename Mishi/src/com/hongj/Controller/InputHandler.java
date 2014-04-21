@@ -3,32 +3,33 @@ package com.hongj.Controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.hongj.Entity.Mishi;
+import com.hongj.Entity.Mishi.State;
 import com.hongj.World.World;
 
 public class InputHandler implements InputProcessor {
 
 	private World world;
-	private MishiController mishiController;
+	private Mishi mishi;
 
 	public InputHandler(World world) {
 		this.world = world;
-		mishiController = new MishiController(world);
+		mishi = world.getMishi();
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.LEFT) {
-			mishiController.moveLeft();
-			System.out.println("left");
+			mishi.getVelocity().x = mishi.getSpeed() * -1;
 		}
 		if (keycode == Keys.RIGHT) {
-
+			mishi.getVelocity().x = mishi.getSpeed() * 1;
 		}
 		if (keycode == Keys.DOWN) {
-
+			mishi.getVelocity().y = mishi.getSpeed() * -1;
 		}
 		if (keycode == Keys.UP) {
-
+			mishi.getVelocity().y = mishi.getSpeed() * 1;
 		}
 		return true;
 	}
@@ -36,16 +37,16 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		if (keycode == Keys.LEFT) {
-			
+			mishi.getVelocity().x = 0;
 		}
 		if (keycode == Keys.RIGHT) {
-
+			mishi.getVelocity().x = 0;
 		}
 		if (keycode == Keys.DOWN) {
-
+			mishi.getVelocity().y = 0;
 		}
 		if (keycode == Keys.UP) {
-
+			mishi.getVelocity().y = 0;
 		}
 		return true;
 	}

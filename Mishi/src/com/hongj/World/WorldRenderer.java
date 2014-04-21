@@ -1,7 +1,7 @@
 package com.hongj.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -32,10 +32,12 @@ public class WorldRenderer {
 		cam.update();
 
 		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(cam.combined);
 
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(cam.combined);
 		batch.enableBlending();
+
 		mishiAnimation = Assets.mishiAnimation;
 
 		scalex = Gdx.graphics.getWidth() / 10f;
@@ -44,9 +46,8 @@ public class WorldRenderer {
 
 	public void render(World world, float runTime) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		shapeRenderer.setProjectionMatrix(cam.combined);
 		shapeRenderer.begin(ShapeType.Rectangle);
 
 		for (Block block : world.getBlocks()) {
@@ -57,6 +58,7 @@ public class WorldRenderer {
 			shapeRenderer.rect(x, y, rect.width, rect.height);
 
 		}
+		shapeRenderer.end();
 		Mishi mishi = world.getMishi();
 
 		float x = mishi.getPosition().x;
@@ -69,6 +71,7 @@ public class WorldRenderer {
 		batch.end();
 
 		Rectangle rect = mishi.getBounds();
+		shapeRenderer.begin(ShapeType.Rectangle);
 		shapeRenderer.setColor(0, 1, 0, 1);
 		shapeRenderer.rect(x, y, rect.width, rect.height);
 		shapeRenderer.end();

@@ -21,6 +21,7 @@ public class ActorTween implements TweenAccessor<Actor> {
 		case ALPHA:
 			returnValues[0] = target.getColor().a;
 			return 1;
+	
 		default:
 			return -1;
 		}

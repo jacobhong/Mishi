@@ -6,9 +6,8 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -17,37 +16,33 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.hongj.Tween.ActorTween;
 import com.hongj.mishi.MishiActor;
 import com.hongj.mishi.MishiGame;
 
 public class MainMenu implements Screen {
 
-	private MishiGame mishi;
+	private MishiGame game;
 	private Stage stage;
 	private Table table;
 	private TextButton buttonPlay;
 	private Label heading;
 	private Skin skin;
-	private BitmapFont white, black;
 	private TextureAtlas atlas;
-	private TextButtonStyle textButtonStyle;
 	private ShapeRenderer backgroudColor;
 	private TweenManager manager;
 
 	public MainMenu(MishiGame mishi) {
-		this.mishi = mishi;
+		this.game = mishi;
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		backgroudColor.begin(ShapeType.FilledRectangle);
 		backgroudColor.setColor(65, 105, 255, 1);
@@ -65,35 +60,25 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(800, 480, true);
-
+		stage.setViewport(800, 480, false);
 	}
 
 	@Override
 	public void show() {
+
 		backgroudColor = new ShapeRenderer();
 		stage = new Stage();
 		MishiActor a = new MishiActor();
 
 		Gdx.input.setInputProcessor(stage);
 
-		atlas = new TextureAtlas("data/button.pack");
-		skin = new Skin(atlas);
+		atlas = new TextureAtlas("data/atlas.pack");
+		skin = new Skin(Gdx.files.internal("data/menuSkin.json"), atlas);
 
-		white = new BitmapFont(Gdx.files.internal("data/white.fnt"), false);
-		black = new BitmapFont(Gdx.files.internal("data/black.fnt"), false);
-
-		heading = new Label(MishiGame.TITLE, new LabelStyle(white, Color.WHITE));
+		heading = new Label(MishiGame.TITLE, skin);
 		heading.setFontScale(1.5f);
 
-		textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.getDrawable("buttonnormal");
-		textButtonStyle.down = skin.getDrawable("buttonpressed");
-		textButtonStyle.pressedOffsetX = 1;
-		textButtonStyle.pressedOffsetY = -1;
-		textButtonStyle.font = black;
-
-		buttonPlay = new TextButton("Play", textButtonStyle);
+		buttonPlay = new TextButton("Play", skin);
 		buttonPlay.pad(20);
 
 		buttonPlay.addListener(new InputListener() {
@@ -106,13 +91,13 @@ public class MainMenu implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				mishi.setScreen(new GameScreen(mishi));
+				game.setScreen(new LevelScreen(game));
 			}
 		});
 
 		table = new Table(skin);
 		table.setFillParent(true);
-		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		table.setBounds(0, 0, 800, 480);
 		table.add(heading);
 		table.getCell(heading).spaceBottom(100);
 		table.row();

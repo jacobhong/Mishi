@@ -6,26 +6,49 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Mishi {
 	Vector2 position, velocity, acceleration;
-	float x, y, width, height, rotation;
+	float x, y, width, height, rotation, speed = 1f, jump_velocity = 1f;
+	boolean facingleft = false;
+
+	public boolean isFacingleft() {
+		return facingleft == true;
+	}
+
+	public void setFacingleft(boolean facingleft) {
+		this.facingleft = facingleft;
+	}
 
 	Rectangle bounds;
+	State state;
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public enum State {
+		IDLE, LEFT, RIGHT, JUMP, DYING;
+	}
 
 	public Mishi(Vector2 position) {
-		this.velocity = new Vector2(position.x, position.y);
+		this.velocity = new Vector2(0, 0);
 		this.acceleration = new Vector2(5, 5);
 		this.position = position;
 		rotation = 0;
 		width = 2.0f;
 		height = 2.0f;
-
+		state = State.IDLE;
 		bounds = new Rectangle(position.x, position.y, width, height);
 	}
 
 	public void update() {
+	//	position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
 		acceleration.mul(Gdx.graphics.getDeltaTime());
 		velocity.add(acceleration);
 		position.set(velocity);
-		
+
 		bounds.x = position.x;
 		bounds.y = position.y;
 	}
@@ -93,6 +116,9 @@ public class Mishi {
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
-	
+
+	public float getSpeed() {
+		return speed;
+	}
 
 }
