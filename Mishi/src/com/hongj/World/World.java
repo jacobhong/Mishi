@@ -9,6 +9,8 @@ import com.hongj.Entity.Mishi;
 import com.hongj.Entity.Octopus;
 import com.hongj.Entity.ScrollHandler;
 import com.hongj.Entity.Stalagmite;
+import com.hongj.Screens.GameScreen;
+import com.hongj.Screens.MainMenu;
 import com.hongj.mishi.MishiGame;
 
 public class World {
@@ -26,7 +28,7 @@ public class World {
 
 	public World(MishiGame game) {
 		state = GameState.MENU;
-
+		this.game = game;
 		mishi = new Mishi(new Vector2(1, 2));
 		octo = new Octopus(new Vector2(1, 3), mishi);
 
@@ -55,18 +57,24 @@ public class World {
 
 	private void updateGameOver() {
 		state = GameState.GAMEOVER;
+		game.setScreen(new GameScreen(game));
 
 	}
 
 	private void updateRunning() {
 		state = GameState.RUNNING;
 		blockHandler.update();
-		
+
 		if (state != GameState.GAMEOVER) {
 			mishi.update();
 			octo.update();
 			if (mishi.getBounds().overlaps(octo.getBounds())) {
 				state = GameState.GAMEOVER;
+			}
+			for (Block block : blockHandler.getBlocks()) {
+				if (block.getBounds().overlaps(mishi.getBounds())) {
+					state = GameState.GAMEOVER;
+				}
 			}
 		}
 	}

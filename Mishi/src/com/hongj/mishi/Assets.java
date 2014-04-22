@@ -9,18 +9,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Assets {
 
 	public static Animation mishiAnimation;
-	public static TextureRegion mishi, mishi2, mishi3, mishi4, mishi5,
-			stalagmite, stalagmitehead;
-	public static Texture texture, splashscreen, oct, background, terrain;
+	public static TextureRegion mishi, mishi2, mishi3, mishi4, mishi5;
+	public static Texture texture, splashscreen, oct, background, turtle;
 
 	public static void load() {
 		Texture.setEnforcePotImages(false);
 
-		terrain = new Texture(Gdx.files.internal("data/unamed.png"));
-		terrain.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-		stalagmite = new TextureRegion(terrain, 1, 1, 34, 34);
-
-		stalagmitehead = new TextureRegion(terrain, 37, 3, 34, 34);
+		turtle = new Texture(Gdx.files.internal("data/turtle.png"));
 
 		background = new Texture(Gdx.files.internal("data/background.png"));
 		background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);

@@ -26,16 +26,16 @@ public class InputHandler implements InputProcessor {
 		if (mishi.getState() != PlayerState.DEAD) {
 			if (keycode == Keys.LEFT) {
 				mishi.setState(PlayerState.LEFT);
-				mishi.getAcceleration().x = -7;
+				mishi.getAcceleration().x = -10;
 			}
 			if (keycode == Keys.RIGHT) {
-				mishi.getAcceleration().x = 7;
+				mishi.getAcceleration().x = 10;
 			}
 			if (keycode == Keys.DOWN) {
-				mishi.getAcceleration().y = -7;
+				mishi.getAcceleration().y = -10;
 			}
 			if (keycode == Keys.UP) {
-				mishi.getAcceleration().y = 7;
+				mishi.getAcceleration().y = 10;
 			}
 		}
 		return true;
@@ -67,7 +67,7 @@ public class InputHandler implements InputProcessor {
 
 		}
 		return true;
-	}	
+	}
 
 	@Override
 	public boolean keyTyped(char character) {

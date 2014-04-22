@@ -25,7 +25,7 @@ public class Mishi {
 		width = 1.0f;
 		height = 1.0f;
 
-		bounds = new Rectangle(position.x, position.y, .75f	, .75f);
+		bounds = new Rectangle(position.x, position.y, .4f	, .4f);
 	}
 
 	public void update() {
@@ -56,8 +56,8 @@ public class Mishi {
 		
 		position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
 
-		bounds.x = position.x;
-		bounds.y = position.y;
+		bounds.x = position.x+.1f;
+		bounds.y = position.y+.3f;
 		
 
 	}
