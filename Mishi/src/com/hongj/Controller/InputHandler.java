@@ -26,16 +26,16 @@ public class InputHandler implements InputProcessor {
 		if (mishi.getState() != PlayerState.DEAD) {
 			if (keycode == Keys.LEFT) {
 				mishi.setState(PlayerState.LEFT);
-				mishi.getAcceleration().x = -5;
+				mishi.getAcceleration().x = -7;
 			}
 			if (keycode == Keys.RIGHT) {
-				mishi.getAcceleration().x = 5;
+				mishi.getAcceleration().x = 7;
 			}
 			if (keycode == Keys.DOWN) {
-				mishi.getAcceleration().y = -5;
+				mishi.getAcceleration().y = -7;
 			}
 			if (keycode == Keys.UP) {
-				mishi.getAcceleration().y = 5;
+				mishi.getAcceleration().y = 7;
 			}
 		}
 		return true;

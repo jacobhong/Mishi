@@ -1,5 +1,7 @@
 package com.hongj.Entity;
 
+import java.awt.geom.Point2D;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,10 +13,12 @@ public class Octopus {
 	private Rectangle bounds;
 	private float size = 1f;
 
-	public Octopus(Vector2 position) {
-		velocity = new Vector2(-1, 0);
-		this.position = position;
+	private Mishi m;
 
+	public Octopus(Vector2 position, Mishi mishi) {
+		m = mishi;
+		velocity = new Vector2(1,0);
+		this.position = position;
 		bounds = new Rectangle(position.x, position.y, size, size);
 	}
 
@@ -51,7 +55,25 @@ public class Octopus {
 	}
 
 	public void update() {
-		position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
+		//position.lerp(m.getPosition(), Gdx.graphics.getDeltaTime());
+//		if (Point2D.distance(m.getPosition().x, m.getPosition().y, position.x,
+//				position.y) < 3) {
+//			if (m.getPosition().x > position.x) {
+//				position.x += .01f;
+//			} else {
+//				position.x -= .01f;
+//
+//			}
+//			if (m.getPosition().y > position.y) {
+//				position.y += .01f;
+//			} else {
+//				position.y -= .01f;
+//
+//			}
+//		} else {
+//			position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
+//		}
+
 		bounds.x = position.x;
 		bounds.y = position.y;
 	}
