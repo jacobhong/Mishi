@@ -5,52 +5,57 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Mishi {
+
 	Vector2 position, velocity, acceleration;
-	float x, y, width, height, rotation, speed = 1f, jump_velocity = 1f;
-	boolean facingleft = false;
-
-	public boolean isFacingleft() {
-		return facingleft == true;
-	}
-
-	public void setFacingleft(boolean facingleft) {
-		this.facingleft = facingleft;
-	}
-
+	float x, y, width, height, rotation;
 	Rectangle bounds;
-	State state;
+	PlayerState state;
 
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	public enum State {
-		IDLE, LEFT, RIGHT, JUMP, DYING;
+	public enum PlayerState {
+		IDLE, DEAD, LEFT, RIGHT, UP, DOWN
 	}
 
 	public Mishi(Vector2 position) {
-		this.velocity = new Vector2(0, 0);
-		this.acceleration = new Vector2(5, 5);
+
+		this.velocity = new Vector2();
+		this.acceleration = new Vector2();
 		this.position = position;
+		state = PlayerState.IDLE;
 		rotation = 0;
-		width = 2.0f;
-		height = 2.0f;
-		state = State.IDLE;
+		width = 1.0f;
+		height = 1.0f;
+
 		bounds = new Rectangle(position.x, position.y, width, height);
 	}
 
 	public void update() {
-	//	position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
-		acceleration.mul(Gdx.graphics.getDeltaTime());
-		velocity.add(acceleration);
-		position.set(velocity);
+		if (state == PlayerState.DEAD) {
+			velocity.set(0, -9);
+		}
+		velocity.add(acceleration.cpy().mul(Gdx.graphics.getDeltaTime()));
+		if (velocity.y > 1) {
+			rotation = 45;
+		}
+		if (velocity.y < -1) {
+			rotation = -45;
+		}
+		if (position.x < 0) {
+			position.x = 0;
+		}
+		if (position.x + width > 10) {
+			position.x = 10 - width;
+		}
+		if (position.y + height > 7) {
+			position.y = 7 - height;
+		}
+		if (position.y < 0) {
+			position.y = 0;
+		}
+		position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
 
 		bounds.x = position.x;
 		bounds.y = position.y;
+
 	}
 
 	public Rectangle getBounds() {
@@ -117,8 +122,12 @@ public class Mishi {
 		this.rotation = rotation;
 	}
 
-	public float getSpeed() {
-		return speed;
+	public void setState(PlayerState state) {
+		this.state = state;
+	}
+
+	public PlayerState getState() {
+		return state;
 	}
 
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.hongj.Entity.Block;
 import com.hongj.Entity.Mishi;
+import com.hongj.Entity.Octopus;
 import com.hongj.mishi.Assets;
 
 public class WorldRenderer {
@@ -19,7 +20,7 @@ public class WorldRenderer {
 	private ShapeRenderer shapeRenderer;
 	private Mishi mishi;
 	private SpriteBatch batch;
-	private Texture blockTexture;
+	private Octopus oct;
 	private Animation mishiAnimation;
 	private float scalex, scaley; // pixels per unit
 
@@ -40,34 +41,42 @@ public class WorldRenderer {
 
 		mishiAnimation = Assets.mishiAnimation;
 
+		oct = world.getOctopus();
+
 		scalex = Gdx.graphics.getWidth() / 10f;
 		scaley = Gdx.graphics.getHeight() / 7f;
+
 	}
 
 	public void render(World world, float runTime) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		shapeRenderer.begin(ShapeType.Rectangle);
+		// shapeRenderer.begin(ShapeType.Rectangle);
+		//
+		// for (Block block : world.getBlocks()) {
+		// Rectangle rect = block.getBounds();
+		// float x = block.getPosition().x;
+		// float y = block.getPosition().y;
+		// shapeRenderer.setColor(1, 0, 0, 1);
+		// shapeRenderer.rect(x, y, rect.width, rect.height);
+		//
+		// }
+		// shapeRenderer.end();
 
-		for (Block block : world.getBlocks()) {
-			Rectangle rect = block.getBounds();
-			float x = block.getPosition().x;
-			float y = block.getPosition().y;
-			shapeRenderer.setColor(1, 0, 0, 1);
-			shapeRenderer.rect(x, y, rect.width, rect.height);
-
-		}
-		shapeRenderer.end();
 		Mishi mishi = world.getMishi();
 
 		float x = mishi.getPosition().x;
 		float y = mishi.getPosition().y;
+
 		batch.begin();
 		batch.draw(mishiAnimation.getKeyFrame(runTime), mishi.getPosition().x,
-				mishi.getPosition().y, mishi.getBounds().width,
-				mishi.getBounds().height, mishi.getWidth(), mishi.getHeight(),
-				1, 1, 0);
+				mishi.getPosition().y, mishi.getBounds().width / 2,
+				mishi.getBounds().height / 2, mishi.getWidth(),
+				mishi.getHeight(), 1, 1, mishi.getRotation());
+
+		batch.draw(Assets.oct, oct.getPosition().x, oct.getPosition().y,
+				oct.getSize(), oct.getSize());
 		batch.end();
 
 		Rectangle rect = mishi.getBounds();

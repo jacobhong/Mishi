@@ -11,9 +11,8 @@ public class Block {
 
 	public Block(Vector2 position) {
 		this.position = position;
-		this.bounds = new Rectangle();
-		this.bounds.width = SIZE;
-		this.bounds.height = SIZE;
+		this.bounds = new Rectangle(position.x,position.y,SIZE,SIZE);
+	
 	}
 	public Vector2 getPosition(){
 		return position;

@@ -28,10 +28,8 @@ public class MainMenu implements Screen {
 	private MishiGame game;
 	private Stage stage;
 	private Table table;
-	private TextButton buttonPlay;
-	private Label heading;
+
 	private Skin skin;
-	private TextureAtlas atlas;
 	private ShapeRenderer backgroudColor;
 	private TweenManager manager;
 
@@ -50,17 +48,17 @@ public class MainMenu implements Screen {
 				Gdx.graphics.getHeight());
 		backgroudColor.end();
 
-		manager.update(delta);
-
 		stage.act(delta);
 		Table.drawDebug(stage);
 		stage.draw();
 
+		manager.update(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		stage.setViewport(800, 480, false);
+		table.invalidateHierarchy();
 	}
 
 	@Override
@@ -72,13 +70,13 @@ public class MainMenu implements Screen {
 
 		Gdx.input.setInputProcessor(stage);
 
-		atlas = new TextureAtlas("data/atlas.pack");
-		skin = new Skin(Gdx.files.internal("data/menuSkin.json"), atlas);
+		skin = new Skin(Gdx.files.internal("data/menuSkin.json"),
+				new TextureAtlas("data/atlas.pack"));
 
-		heading = new Label(MishiGame.TITLE, skin);
+		Label heading = new Label(MishiGame.TITLE, skin);
 		heading.setFontScale(1.5f);
 
-		buttonPlay = new TextButton("Play", skin);
+		TextButton buttonPlay = new TextButton("Play", skin);
 		buttonPlay.pad(20);
 
 		buttonPlay.addListener(new InputListener() {
@@ -91,13 +89,12 @@ public class MainMenu implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				game.setScreen(new LevelScreen(game));
+				game.setScreen(new GameScreen(game));
 			}
 		});
 
 		table = new Table(skin);
 		table.setFillParent(true);
-		table.setBounds(0, 0, 800, 480);
 		table.add(heading);
 		table.getCell(heading).spaceBottom(100);
 		table.row();
@@ -127,12 +124,12 @@ public class MainMenu implements Screen {
 		Tween.from(table, ActorTween.ALPHA, .5f).target(0).start(manager);
 		Tween.from(table, ActorTween.Y, .5f)
 				.target(Gdx.graphics.getHeight() / 2).start(manager);
-
+		manager.update(Float.MIN_VALUE);
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		dispose();
 
 	}
 

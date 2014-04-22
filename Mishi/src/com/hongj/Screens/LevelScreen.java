@@ -1,5 +1,7 @@
 package com.hongj.Screens;
 
+import aurelienribon.tweenengine.Tween;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,21 +14,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.hongj.Tween.ActorTween;
 import com.hongj.mishi.MishiGame;
 
 public class LevelScreen implements Screen {
 
 	Stage stage;
 	Table table;
-	TextureAtlas atlas;
 	Skin skin;
-	List list;
-	ScrollPane pane;
-	TextButton play, back;
 	private MishiGame game;
 
 	public LevelScreen(MishiGame mishi) {
 		this.game = mishi;
+	}
+
+	public LevelScreen() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -44,6 +47,7 @@ public class LevelScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.setViewport(800, 480, false);
+		table.invalidateHierarchy();
 	}
 
 	@Override
@@ -52,47 +56,48 @@ public class LevelScreen implements Screen {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 
-		atlas = new TextureAtlas("data/atlas.pack");
-		skin = new Skin(Gdx.files.internal("data/menuSkin.json"), atlas);
+		skin = new Skin(Gdx.files.internal("data/menuSkin.json"),
+				new TextureAtlas("data/atlas.pack"));
 
 		table = new Table(skin);
 		table.setFillParent(true);
 
-		table.setBounds(0, 0, 800, 480);
-
 		table.debug();
 
-		list = new List(new String[] { "xxxx" }, skin);
+		List list = new List(
+				new String[] { "xxxxsdfasdfsdfsdfdsfsdfsdfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsd" },
+				skin);
 
-		pane = new ScrollPane(list, skin);
+		ScrollPane pane = new ScrollPane(list, skin);
 
-		play = new TextButton("Play", skin);
-		back = new TextButton("back", skin);
+		TextButton play = new TextButton("Play", skin);
+		TextButton back = new TextButton("back", skin);
 
 		play.pad(15);
 		back.pad(10);
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new MainMenu(game));
+				game.setScreen(new Games(game));
 
 			}
 		});
 
-		table.add().width(table.getWidth() / 3);
-		table.add("SELECT LEVEL").width(table.getWidth() / 3);
-		table.add().width(table.getWidth() / 3).row();
-		table.add(pane).left().expandY();
-		table.add(play);
-		table.add(back).bottom().right();
+		table.add("SELECT LEVEL").colspan(3).expandX().spaceBottom(50).row();
 
+		table.add(pane).left().expandY().uniformX();
+		table.add(play).uniformX();
+		table.add(back).bottom().right().uniformX();
+		
+		
+		
 		stage.addActor(table);
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		dispose();
 
 	}
 
@@ -111,7 +116,6 @@ public class LevelScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		atlas.dispose();
 		skin.dispose();
 
 	}

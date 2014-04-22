@@ -35,8 +35,6 @@ public class SplashScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		
-		manager.update(delta);
-		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -53,6 +51,8 @@ public class SplashScreen implements Screen {
 
 		batch.end();
 
+		manager.update(delta);
+		
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		dispose();
 
 	}
 

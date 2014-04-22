@@ -10,7 +10,7 @@ public class Assets {
 
 	public static Animation mishiAnimation;
 	public static TextureRegion mishi, mishi2, mishi3, mishi4, mishi5;
-	public static Texture texture, splashscreen;
+	public static Texture texture, splashscreen, oct;
 
 	public static void load() {
 		Texture.setEnforcePotImages(false);
@@ -21,6 +21,9 @@ public class Assets {
 		splashscreen = new Texture(Gdx.files.internal("data/splashscreen.png"));
 		splashscreen.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
+		oct = new Texture(Gdx.files.internal("data/oct.png"));
+		oct.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
 		mishi = new TextureRegion(texture, 1, 1, 200, 150);
 		mishi2 = new TextureRegion(texture, 203, 1, 200, 150);
 		mishi3 = new TextureRegion(texture, 405, 1, 200, 150);

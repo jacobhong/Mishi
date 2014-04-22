@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.hongj.Entity.Mishi;
-import com.hongj.Entity.Mishi.State;
+import com.hongj.Entity.Mishi.PlayerState;
 import com.hongj.World.World;
 
 public class InputHandler implements InputProcessor {
@@ -17,19 +17,26 @@ public class InputHandler implements InputProcessor {
 		mishi = world.getMishi();
 	}
 
+	public InputHandler(com.badlogic.gdx.physics.box2d.World world2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Keys.LEFT) {
-			mishi.getVelocity().x = mishi.getSpeed() * -1;
-		}
-		if (keycode == Keys.RIGHT) {
-			mishi.getVelocity().x = mishi.getSpeed() * 1;
-		}
-		if (keycode == Keys.DOWN) {
-			mishi.getVelocity().y = mishi.getSpeed() * -1;
-		}
-		if (keycode == Keys.UP) {
-			mishi.getVelocity().y = mishi.getSpeed() * 1;
+		if (mishi.getState() != PlayerState.DEAD) {
+			if (keycode == Keys.LEFT) {
+				mishi.setState(PlayerState.LEFT);
+				mishi.getAcceleration().x = -5;
+			}
+			if (keycode == Keys.RIGHT) {
+				mishi.getAcceleration().x = 5;
+			}
+			if (keycode == Keys.DOWN) {
+				mishi.getAcceleration().y = -5;
+			}
+			if (keycode == Keys.UP) {
+				mishi.getAcceleration().y = 5;
+			}
 		}
 		return true;
 	}
@@ -37,19 +44,30 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		if (keycode == Keys.LEFT) {
+			mishi.getAcceleration().x = 0;
 			mishi.getVelocity().x = 0;
+			mishi.setRotation(0);
 		}
 		if (keycode == Keys.RIGHT) {
+			mishi.getAcceleration().x = 0;
 			mishi.getVelocity().x = 0;
+			mishi.setRotation(0);
+
 		}
 		if (keycode == Keys.DOWN) {
+			mishi.getAcceleration().y = 0;
 			mishi.getVelocity().y = 0;
+			mishi.setRotation(0);
+
 		}
 		if (keycode == Keys.UP) {
+			mishi.getAcceleration().y = 0;
 			mishi.getVelocity().y = 0;
+			mishi.setRotation(0);
+
 		}
 		return true;
-	}
+	}	
 
 	@Override
 	public boolean keyTyped(char character) {
