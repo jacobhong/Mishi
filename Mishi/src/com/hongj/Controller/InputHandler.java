@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.hongj.Entity.Mishi;
 import com.hongj.Entity.Mishi.PlayerState;
 import com.hongj.World.World;
+import com.hongj.World.World.GameState;
 
 public class InputHandler implements InputProcessor {
 
@@ -25,17 +26,16 @@ public class InputHandler implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		if (mishi.getState() != PlayerState.DEAD) {
 			if (keycode == Keys.LEFT) {
-				mishi.setState(PlayerState.LEFT);
-				mishi.getAcceleration().x = -10;
+				mishi.getAcceleration().x = -13;
 			}
 			if (keycode == Keys.RIGHT) {
-				mishi.getAcceleration().x = 10;
+				mishi.getAcceleration().x = 13;
 			}
 			if (keycode == Keys.DOWN) {
-				mishi.getAcceleration().y = -10;
+				mishi.getAcceleration().y = -13;
 			}
 			if (keycode == Keys.UP) {
-				mishi.getAcceleration().y = 10;
+				mishi.getAcceleration().y = 13;
 			}
 		}
 		return true;
@@ -71,15 +71,20 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (screenX < Gdx.graphics.getWidth() / 2
-				&& screenY > Gdx.graphics.getHeight() / 2) {
-
+		float x = screenX / (Gdx.graphics.getWidth() / 10);
+		float y = screenY / (Gdx.graphics.getHeight() / 7);
+		if (world.getState() == GameState.GAMEOVER) {
+			if (x >= 2 && x <= 5 && y >= 1 && y <= 2.5) {
+				world.setState(GameState.RESTART);
+			}
+			if (x >= 4 && x <= 5 && y >= 4 && y <= 5) {
+				world.setState(GameState.MENU);
+			}
 		}
 		return true;
 	}

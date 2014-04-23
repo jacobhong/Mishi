@@ -12,7 +12,7 @@ public class Mishi {
 	PlayerState state;
 
 	public enum PlayerState {
-		IDLE, DEAD, LEFT, RIGHT, UP, DOWN
+		IDLE, DEAD
 	}
 
 	public Mishi(Vector2 position) {
@@ -25,16 +25,16 @@ public class Mishi {
 		width = 1.0f;
 		height = 1.0f;
 
-		bounds = new Rectangle(position.x, position.y, .4f	, .4f);
+		bounds = new Rectangle(position.x, position.y, .4f, .4f);
 	}
 
 	public void update() {
 		if (state == PlayerState.DEAD) {
 			velocity.set(0, -9);
 		}
-		
+
 		velocity.add(acceleration.cpy().mul(Gdx.graphics.getDeltaTime()));
-		
+
 		if (velocity.y > 1) {
 			rotation = 45;
 		}
@@ -53,12 +53,11 @@ public class Mishi {
 		if (position.y < 0) {
 			position.y = 0;
 		}
-		
+
 		position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
 
-		bounds.x = position.x+.1f;
-		bounds.y = position.y+.3f;
-		
+		bounds.x = position.x + .1f;
+		bounds.y = position.y + .2f;
 
 	}
 

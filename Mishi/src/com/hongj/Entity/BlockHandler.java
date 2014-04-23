@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class BlockHandler {
 	Array<Block> blocks;
+	
 
 	public BlockHandler() {
 		blocks = new Array<Block>();
@@ -18,13 +19,17 @@ public class BlockHandler {
 		return blocks;
 	}
 
+	
 	public void update() {
+	
 		for (Block block : getBlocks()) {
 			block.update();
-			if (block.isScrolledLeft()) {
+			if (block.isScrolledLeft()) {			
 				block.reset(block);
 			}
-		}
+		}	
 
 	}
+
+
 }

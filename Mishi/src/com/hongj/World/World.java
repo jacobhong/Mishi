@@ -7,8 +7,6 @@ import com.hongj.Entity.Block;
 import com.hongj.Entity.BlockHandler;
 import com.hongj.Entity.Mishi;
 import com.hongj.Entity.Octopus;
-import com.hongj.Entity.ScrollHandler;
-import com.hongj.Entity.Stalagmite;
 import com.hongj.Screens.GameScreen;
 import com.hongj.Screens.MainMenu;
 import com.hongj.mishi.MishiGame;
@@ -18,21 +16,22 @@ public class World {
 	Mishi mishi;
 	Octopus octo;
 	GameState state;
-	public Stalagmite s1, s2, s3;
-	private ScrollHandler handler;
+	int score;
+	float time;
 	private BlockHandler blockHandler;
 
 	public enum GameState {
-		MENU, READY, RUNNING, GAMEOVER;
+		MENU, READY, RESTART, RUNNING, PAUSED, GAMEOVER;
 	}
 
 	public World(MishiGame game) {
-		state = GameState.MENU;
+		state = GameState.READY;
 		this.game = game;
 		mishi = new Mishi(new Vector2(1, 2));
-		octo = new Octopus(new Vector2(1, 3), mishi);
+		octo = new Octopus(new Vector2(11, 7), mishi);
 
 		Gdx.input.setInputProcessor(new InputHandler(this));
+
 		blockHandler = new BlockHandler();
 
 	}
@@ -41,13 +40,19 @@ public class World {
 
 		switch (state) {
 		case MENU:
-			updateReady();
+			updateMenu();
 			break;
 		case READY:
-
+			updateReady();
+			break;
+		case RESTART:
+			updateRestart();
+			break;
 		case RUNNING:
 			updateRunning();
 			break;
+		case PAUSED:
+			updatePause();
 		case GAMEOVER:
 			updateGameOver();
 			break;
@@ -55,17 +60,33 @@ public class World {
 
 	}
 
-	private void updateGameOver() {
-		state = GameState.GAMEOVER;
-		game.setScreen(new GameScreen(game));
+	private void updateMenu() {
+		game.setScreen(new MainMenu(game));
+	}
 
+	private void updateReady() {
+		if (Gdx.input.justTouched()) {
+			state = GameState.RUNNING;
+		}
+	}
+
+	private void updateRestart() {
+		game.setScreen(new GameScreen(game));
 	}
 
 	private void updateRunning() {
-		state = GameState.RUNNING;
 		blockHandler.update();
+		time += Gdx.graphics.getDeltaTime();
+		if (time > 3) {
+			score++;
+			System.out.println(score);
+			time = 0;
+		}
 
 		if (state != GameState.GAMEOVER) {
+			float x = Gdx.input.getAccelerometerX();
+			float y = Gdx.input.getAccelerometerY();
+			float z = Gdx.input.getAccelerometerZ();
 			mishi.update();
 			octo.update();
 			if (mishi.getBounds().overlaps(octo.getBounds())) {
@@ -79,12 +100,13 @@ public class World {
 		}
 	}
 
-	private void updateReady() {
-		state = GameState.READY;
-		if (Gdx.input.isTouched()) {
-			System.out.println("ready");
-			updateRunning();
-		}
+	private void updatePause() {
+		System.out.println("pause");
+
+	}
+
+	private void updateGameOver() {
+		state = GameState.GAMEOVER;
 
 	}
 
@@ -100,4 +122,15 @@ public class World {
 		return blockHandler;
 	}
 
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
+	}
+
+	public int getScore() {
+		return score;
+	}
 }

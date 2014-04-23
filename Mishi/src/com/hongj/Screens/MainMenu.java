@@ -71,7 +71,7 @@ public class MainMenu implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		skin = new Skin(Gdx.files.internal("data/menuSkin.json"),
-				new TextureAtlas("data/atlas.pack"));
+				new TextureAtlas("data/texture.pack"));
 
 		Label heading = new Label(MishiGame.TITLE, skin);
 		heading.setFontScale(1.5f);

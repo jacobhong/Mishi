@@ -17,7 +17,7 @@ public class Octopus {
 
 	public Octopus(Vector2 position, Mishi mishi) {
 		m = mishi;
-		velocity = new Vector2(1,0);
+		velocity = new Vector2();
 		this.position = position;
 		bounds = new Rectangle(position.x, position.y, size, size);
 	}
@@ -55,24 +55,25 @@ public class Octopus {
 	}
 
 	public void update() {
-		//position.lerp(m.getPosition(), Gdx.graphics.getDeltaTime());
-//		if (Point2D.distance(m.getPosition().x, m.getPosition().y, position.x,
-//				position.y) < 3) {
-//			if (m.getPosition().x > position.x) {
-//				position.x += .01f;
-//			} else {
-//				position.x -= .01f;
-//
-//			}
-//			if (m.getPosition().y > position.y) {
-//				position.y += .01f;
-//			} else {
-//				position.y -= .01f;
-//
-//			}
-//		} else {
-//			position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
-//		}
+		position.lerp(m.getPosition(), .003f);
+		// if (Point2D.distance(m.getPosition().x, m.getPosition().y,
+		// position.x,
+		// position.y) < 3) {
+		// if (m.getPosition().x > position.x) {
+		// position.x += .01f;
+		// } else {
+		// position.x -= .01f;
+		//
+		// }
+		// if (m.getPosition().y > position.y) {
+		// position.y += .01f;
+		// } else {
+		// position.y -= .01f;
+		//
+		// }
+		// } else {
+		// position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
+		// }
 
 		bounds.x = position.x;
 		bounds.y = position.y;
