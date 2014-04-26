@@ -100,7 +100,8 @@ public class WorldRenderer {
 		for (Turtle turtleBlock : turtleHandler.getBlocks()) {
 			// draw turtle blocks
 			batch.draw(turtle, turtleBlock.getPosition().x,
-					turtleBlock.getPosition().y, Turtle.SIZE, Turtle.SIZE);
+					turtleBlock.getPosition().y, turtleBlock.getWidth(),
+					turtleBlock.getHeight());
 		}
 		if (world.getState() == GameState.READY) {
 			drawReady();

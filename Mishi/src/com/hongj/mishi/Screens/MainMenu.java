@@ -21,9 +21,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.hongj.mishi.Assets;
-import com.hongj.mishi.MishiActor;
 import com.hongj.mishi.MishiGame;
 import com.hongj.mishi.Tween.ActorTween;
+import com.hongj.mishi.Tween.MishiActor;
 
 public class MainMenu implements Screen {
 

@@ -13,8 +13,10 @@ public class TurtleHandler {
 	public TurtleHandler() {
 		blocks = new Array<Turtle>();
 		for (int i = 0; i < 11; i++) {
-			blocks.add(new Turtle(new Vector2(i, 0)));
-			blocks.add(new Turtle(new Vector2(i, 6)));
+			blocks.add(new Turtle(new Vector2(i, 0), new Vector2(-.05f, 0),
+					.9f, .9f));
+			blocks.add(new Turtle(new Vector2(i, 6), new Vector2(-.05f, 0),
+					.9f, .9f));
 		}
 	}
 

@@ -2,22 +2,18 @@ package com.hongj.mishi.Model;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Turtle {
+public class Turtle extends MoveableEntity {
 	// model for turtle tiles that the player avoids
 
-	private Vector2 position, velocity;
-	private Rectangle bounds;
 	private boolean isScrolledLeft; // if goes off screen
-	public static final float SIZE = .9f;
 	private Random rand;
 
-	public Turtle(Vector2 position) {
-		velocity = new Vector2(-.05f, 0);
-		this.position = position;
+	public Turtle(Vector2 position, Vector2 velocity, float width, float height) {
+		super(position, velocity, width, height);
+
 		this.bounds = new Rectangle(position.x, position.y, .4f, .4f);
 
 	}
@@ -33,14 +29,6 @@ public class Turtle {
 			// if position of right side of turtle goes left off screen
 			isScrolledLeft = true;
 		}
-	}
-
-	public Vector2 getPosition() {
-		return position;
-	}
-
-	public Rectangle getBounds() {
-		return bounds;
 	}
 
 	public void reset(Turtle block) {
