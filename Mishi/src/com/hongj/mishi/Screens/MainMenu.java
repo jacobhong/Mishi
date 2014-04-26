@@ -5,10 +5,9 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -33,16 +32,17 @@ public class MainMenu implements Screen {
 	private Skin skin;
 	private TweenManager manager;
 	private Image menu, sound;
-	private SpriteBatch batch;
-	private Music music;
 	private boolean isSound;
+	private Preferences prefs;
 
 	public MainMenu(MishiGame mishi) {
 		this.game = mishi;
-		isSound = true;
-		music = Assets.music;
-		music.play();
-
+		// check if sound on or off
+		prefs = Gdx.app.getPreferences("sound");
+		isSound = prefs.getBoolean("sound", true);
+		if (isSound) {
+			Assets.music.play();
+		}
 	}
 
 	@Override
@@ -70,8 +70,6 @@ public class MainMenu implements Screen {
 				batch.draw(Assets.menu, 0, 0);
 			}
 		};
-		
-		batch = new SpriteBatch();
 
 		MishiActor mishiActor = new MishiActor();
 
@@ -100,12 +98,16 @@ public class MainMenu implements Screen {
 				// changes boolean value per click
 				isSound = isSound == true ? false : true;
 				if (isSound) {
-					if (!music.isPlaying()) {
-						music.play();
+					// save sound preferences
+					if (!Assets.music.isPlaying()) {
+						prefs.putBoolean("sound", true);
+						Assets.music.play();
 					}
 				} else {
-					music.stop();
+					Assets.music.stop();
+					prefs.putBoolean("sound", false);
 				}
+				prefs.flush();
 			}
 
 		});
@@ -188,6 +190,7 @@ public class MainMenu implements Screen {
 		Tween.from(table, ActorTween.Y, .9f)
 				.target(Gdx.graphics.getHeight() / 4).start(manager);
 		manager.update(Float.MIN_VALUE);
+
 	}
 
 	@Override
@@ -210,7 +213,7 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void dispose() {
-		music.dispose();
+		// Assets.music.dispose();
 		skin.dispose();
 		stage.dispose();
 
