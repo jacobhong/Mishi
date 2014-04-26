@@ -32,8 +32,7 @@ public class MainMenu implements Screen {
 	private Table table;
 	private Skin skin;
 	private TweenManager manager;
-	private Image sound;
-	private Sprite menu;
+	private Image menu, sound;
 	private SpriteBatch batch;
 	private Music music;
 	private boolean isSound;
@@ -50,9 +49,7 @@ public class MainMenu implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(menu, 0, 0);
-		batch.end();
+
 		stage.act(delta);
 		stage.draw();
 		manager.update(delta);
@@ -66,7 +63,14 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void show() {
-		menu = new Sprite(Assets.menu);
+
+		menu = new Image() {
+			@Override
+			public void draw(SpriteBatch batch, float parentAlpha) {
+				batch.draw(Assets.menu, 0, 0);
+			}
+		};
+		
 		batch = new SpriteBatch();
 
 		MishiActor mishiActor = new MishiActor();
@@ -143,6 +147,7 @@ public class MainMenu implements Screen {
 		// basic table setup
 		table = new Table(skin);
 		table.setFillParent(true);
+		table.add(menu);
 		table.row();
 		table.add(heading);
 		table.getCell(heading).spaceBottom(115);
