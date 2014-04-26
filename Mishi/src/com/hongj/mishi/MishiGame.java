@@ -2,7 +2,8 @@ package com.hongj.mishi;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
-import com.hongj.Screens.SplashScreen;
+import com.badlogic.gdx.graphics.FPSLogger;
+import com.hongj.mishi.Screens.SplashScreen;
 
 /*
  * starting point of game,
@@ -11,10 +12,13 @@ import com.hongj.Screens.SplashScreen;
 public class MishiGame extends Game {
 	public static final String TITLE = "Mishi  v.0.1";
 	private Music music;
+	FPSLogger logger;
 
 	@Override
 	public void create() {
 		Assets.load();
+		logger = new FPSLogger();
+		logger.log();
 		setScreen(new SplashScreen(this));
 
 	}
@@ -22,6 +26,14 @@ public class MishiGame extends Game {
 	@Override
 	public void dispose() {
 		Assets.dispose();
+	}
+
+	@Override
+	public void render() {
+
+		super.render();
+		logger.log();
+
 	}
 
 }

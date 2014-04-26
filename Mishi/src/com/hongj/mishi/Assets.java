@@ -20,7 +20,7 @@ public class Assets {
 	public static Texture mishiTexture, splashscreen, texture, texture2;
 	public static BitmapFont font;
 	public static Music music;
-	public static Sound click, click2;
+	public static Sound click, click2, scored;
 
 	public static void load() {
 		font = new BitmapFont(Gdx.files.internal("data/white.fnt"), false);
@@ -73,6 +73,7 @@ public class Assets {
 
 		click = Gdx.audio.newSound(Gdx.files.internal("data/click1.ogg"));
 		click2 = Gdx.audio.newSound(Gdx.files.internal("data/click2.ogg"));
+		scored = Gdx.audio.newSound(Gdx.files.internal("data/scored.ogg"));
 	}
 
 	public static void dispose() {
