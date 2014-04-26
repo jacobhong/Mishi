@@ -3,80 +3,87 @@ texture.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background
+textGameOver
   rotate: false
-  xy: 1, 206
-  size: 800, 480
-  orig: 800, 480
+  xy: 1, 227
+  size: 412, 78
+  orig: 412, 78
   offset: 0, 0
   index: -1
-gameover
+textGetReady
   rotate: false
-  xy: 1, 4
-  size: 400, 200
-  orig: 400, 200
-  offset: 0, 0
-  index: -1
-splashscreen
-  rotate: false
-  xy: 403, 4
-  size: 400, 200
-  orig: 400, 200
+  xy: 1, 152
+  size: 400, 73
+  orig: 400, 73
   offset: 0, 0
   index: -1
 buttonnormal
   rotate: false
-  xy: 803, 586
+  xy: 1, 50
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 buttonpressed
   rotate: false
-  xy: 803, 484
+  xy: 203, 50
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
+gameover
+  rotate: false
+  xy: 415, 205
+  size: 180, 100
+  orig: 180, 100
+  offset: 0, 0
+  index: -1
 oct
   rotate: false
-  xy: 803, 382
+  xy: 597, 205
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 oct2
   rotate: false
-  xy: 803, 280
+  xy: 405, 103
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 oct3
   rotate: false
-  xy: 905, 382
+  xy: 507, 103
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 turtle
   rotate: false
-  xy: 905, 280
+  xy: 405, 1
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
-select
+pause
   rotate: false
-  xy: 1, 1
-  size: 1, 1
-  orig: 1, 1
+  xy: 609, 133
+  size: 80, 70
+  orig: 80, 70
   offset: 0, 0
   index: -1
-transp
+sound
   rotate: false
-  xy: 803, 277
-  size: 1, 1
-  orig: 1, 1
+  xy: 507, 34
+  size: 80, 67
+  orig: 80, 67
+  offset: 0, 0
+  index: -1
+soundoff
+  rotate: false
+  xy: 609, 64
+  size: 80, 67
+  orig: 80, 67
   offset: 0, 0
   index: -1

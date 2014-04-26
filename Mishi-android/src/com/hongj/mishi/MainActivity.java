@@ -12,7 +12,7 @@ public class MainActivity extends AndroidApplication {
 
 		AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
 		cfg.useGL20 = true;
-
+		cfg.useAccelerometer = true;
 		initialize(new MishiGame(), cfg);
 	}
 }

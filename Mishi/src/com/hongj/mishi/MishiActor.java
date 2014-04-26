@@ -1,11 +1,12 @@
 package com.hongj.mishi;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/*
+ * draw main character animated on the menu screen
+ */
 public class MishiActor extends Actor {
 
 	private Animation mishiAnimation;
@@ -19,9 +20,7 @@ public class MishiActor extends Actor {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		
-		batch.draw(mishiAnimation.getKeyFrame(stateTime),
-				Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		batch.draw(mishiAnimation.getKeyFrame(stateTime), 200, 200);
 	}
 
 	@Override
@@ -29,20 +28,6 @@ public class MishiActor extends Actor {
 		super.act(delta);
 		stateTime += delta;
 
-	}
-
-	@Override
-	public void addAction(Action action) {
-		// TODO Auto-generated method stub
-		super.addAction(action);
-	}
-
-	@Override
-	public Actor hit(float x, float y, boolean touchable) {
-		// TODO Auto-generated method stub
-		// if (touchable && getTouchable() != Touchable.enabled) return null;
-		// return x >= 0 && x < width && y >= 0 && y < height ? this : null;
-		return super.hit(x, y, touchable);
 	}
 
 }

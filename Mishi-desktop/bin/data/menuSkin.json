@@ -8,17 +8,16 @@
 	},
 	"com.badlogic.gdx.graphics.g2d.BitmapFont" : {
 		"white" : {"file" : "data/white.fnt" } ,
-		"black" : {"file" : "data/black.fnt" } 
 	},
 	"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle" :{
 		"default" : {"font" : white, "fontColor" : white}
 	},
 	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle" : {
-		"default" : { "up" : "buttonnormal", "down" : "buttonpressed" , "font" : black, "pressedOffsetX" : 1, "pressedOffsetY": -1} 
+		"default" : { "up" : "buttonnormal", "down" : "buttonpressed" , "font" : white, "pressedOffsetX" : 1, "pressedOffsetY": -1} 
 	},
 	
 	"com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle" : {
-		"default" : {"font" : white, "fontColorUnselected" : white, "fontColorSelected" : black, "selection" : "select" } 
+	
 		
 	},
 	"com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle" : {

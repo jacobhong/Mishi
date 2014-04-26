@@ -1,8 +1,5 @@
 package com.hongj.Entity;
 
-import java.awt.geom.Point2D;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,10 +10,11 @@ public class Octopus {
 	private Rectangle bounds;
 	private float size = 1f;
 
-	private Mishi m;
+	// need instance of main character for coordinates
+	private Mishi mishi;
 
 	public Octopus(Vector2 position, Mishi mishi) {
-		m = mishi;
+		this.mishi = mishi;
 		velocity = new Vector2();
 		this.position = position;
 		bounds = new Rectangle(position.x, position.y, size, size);
@@ -55,25 +53,8 @@ public class Octopus {
 	}
 
 	public void update() {
-		position.lerp(m.getPosition(), .003f);
-		// if (Point2D.distance(m.getPosition().x, m.getPosition().y,
-		// position.x,
-		// position.y) < 3) {
-		// if (m.getPosition().x > position.x) {
-		// position.x += .01f;
-		// } else {
-		// position.x -= .01f;
-		//
-		// }
-		// if (m.getPosition().y > position.y) {
-		// position.y += .01f;
-		// } else {
-		// position.y -= .01f;
-		//
-		// }
-		// } else {
-		// position.add(velocity.cpy().mul(Gdx.graphics.getDeltaTime()));
-		// }
+		// this gives the octopus a simple ai to chase the main character
+		position.lerp(mishi.getPosition(), .003f);
 
 		bounds.x = position.x;
 		bounds.y = position.y;

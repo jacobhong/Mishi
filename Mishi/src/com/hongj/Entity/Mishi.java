@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Mishi {
-
+	// main character model
+	public static final float MAX_VEL = 6f;
 	Vector2 position, velocity, acceleration;
 	float x, y, width, height, rotation;
 	Rectangle bounds;
@@ -16,10 +17,10 @@ public class Mishi {
 	}
 
 	public Mishi(Vector2 position) {
-
 		this.velocity = new Vector2();
 		this.acceleration = new Vector2();
 		this.position = position;
+
 		state = PlayerState.IDLE;
 		rotation = 0;
 		width = 1.0f;
@@ -29,17 +30,25 @@ public class Mishi {
 	}
 
 	public void update() {
-		if (state == PlayerState.DEAD) {
-			velocity.set(0, -9);
-		}
-
+		// move player and keep in bounds
 		velocity.add(acceleration.cpy().mul(Gdx.graphics.getDeltaTime()));
-
-		if (velocity.y > 1) {
-			rotation = 45;
+		if (velocity.x > MAX_VEL) {
+			velocity.x = MAX_VEL;
 		}
-		if (velocity.y < -1) {
-			rotation = -45;
+		if (velocity.x < -MAX_VEL) {
+			velocity.x = -MAX_VEL;
+		}
+		if (velocity.y > MAX_VEL) {
+			velocity.y = MAX_VEL;
+		}
+		if (velocity.y < -MAX_VEL) {
+			velocity.y = -MAX_VEL;
+		}
+		if (velocity.y > 0) {
+			rotation = 25;
+		}
+		if (velocity.y < 0) {
+			rotation = -25;
 		}
 		if (position.x < 0) {
 			position.x = 0;

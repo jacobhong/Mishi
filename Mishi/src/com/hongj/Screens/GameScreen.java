@@ -1,7 +1,9 @@
 package com.hongj.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.hongj.Controller.InputHandler;
 import com.hongj.World.World;
 import com.hongj.World.WorldRenderer;
 import com.hongj.mishi.Assets;
@@ -18,7 +20,9 @@ public class GameScreen implements Screen {
 		this.game = game;
 		world = new World(game);
 		renderer = new WorldRenderer(world);
+		Gdx.input.setInputProcessor(new InputHandler(world));
 		music = Assets.music;
+		
 	}
 
 	@Override
@@ -37,7 +41,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		music.play();
 
 	}
 

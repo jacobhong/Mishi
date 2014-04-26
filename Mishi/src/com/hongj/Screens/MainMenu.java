@@ -6,20 +6,22 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.hongj.Tween.ActorTween;
+import com.hongj.mishi.Assets;
+import com.hongj.mishi.BackgroundActor;
 import com.hongj.mishi.MishiActor;
 import com.hongj.mishi.MishiGame;
 
@@ -30,11 +32,21 @@ public class MainMenu implements Screen {
 	private Table table;
 
 	private Skin skin;
-	private ShapeRenderer backgroudColor;
+
 	private TweenManager manager;
+
+	private BackgroundActor backgroundActor;
+	private Image sound;
+	private Music music;
+	private boolean isSound;
 
 	public MainMenu(MishiGame mishi) {
 		this.game = mishi;
+		backgroundActor = new BackgroundActor();
+		music = Assets.music;
+		music.play();
+		isSound = true;
+
 	}
 
 	@Override
@@ -42,16 +54,8 @@ public class MainMenu implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		backgroudColor.begin(ShapeType.FilledRectangle);
-		backgroudColor.setColor(65, 105, 255, 1);
-		backgroudColor.filledRect(0, 0, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-		backgroudColor.end();
-
 		stage.act(delta);
-		Table.drawDebug(stage);
 		stage.draw();
-
 		manager.update(delta);
 	}
 
@@ -63,10 +67,9 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void show() {
-
-		backgroudColor = new ShapeRenderer();
-		stage = new Stage();
 		MishiActor a = new MishiActor();
+
+		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
 
@@ -74,7 +77,31 @@ public class MainMenu implements Screen {
 				new TextureAtlas("data/texture.pack"));
 
 		Label heading = new Label(MishiGame.TITLE, skin);
-		heading.setFontScale(1.5f);
+		heading.setFontScale(2f);
+
+		sound = new Image(Assets.sound);
+		sound.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				System.out.println("tes");
+				isSound = isSound == true ? false : true;
+				if (isSound) {
+					if (!music.isPlaying()) {
+						music.play();
+					}
+				} else {
+					music.stop();
+				}
+			}
+
+		});
 
 		TextButton buttonPlay = new TextButton("Play", skin);
 		buttonPlay.pad(20);
@@ -89,29 +116,38 @@ public class MainMenu implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				Assets.click.play();
 				game.setScreen(new GameScreen(game));
 			}
 		});
 
 		table = new Table(skin);
 		table.setFillParent(true);
+		table.add(backgroundActor);
+		table.row();
 		table.add(heading);
-		table.getCell(heading).spaceBottom(100);
+		table.getCell(heading).spaceBottom(250);
 		table.row();
 		table.add(buttonPlay);
 		table.row();
 		table.add(a);
-
-		table.debug();
-
+		table.row();
+		table.row();
+		table.add(sound).bottom().left().expandX();
 		stage.addActor(table);
 
 		manager = new TweenManager();
+
 		Tween.registerAccessor(Actor.class, new ActorTween());
 		Timeline.createSequence().beginSequence()
 				.push(Tween.to(heading, ActorTween.RGB, .5f).target(0, 0, 1))
 				.push(Tween.to(heading, ActorTween.RGB, .5f).target(0, 1, 0))
 				.push(Tween.to(heading, ActorTween.RGB, .5f).target(1, 0, 0))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(1, 0, 0))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(1, 1, 0))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(1, 1, 1))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(1, 0, 1))
+				.push(Tween.to(heading, ActorTween.RGB, .5f).target(0, 1, 1))
 				.end().start(manager);
 		// heading and buttons fade in
 		Timeline.createSequence().beginSequence()

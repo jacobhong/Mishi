@@ -1,0 +1,33 @@
+
+texture2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 483
+  size: 800, 480
+  orig: 800, 480
+  offset: 0, 0
+  index: -1
+menu
+  rotate: false
+  xy: 1, 1
+  size: 800, 480
+  orig: 800, 480
+  offset: 0, 0
+  index: -1
+retry
+  rotate: false
+  xy: 803, 863
+  size: 200, 100
+  orig: 200, 100
+  offset: 0, 0
+  index: -1
+returnmenu
+  rotate: false
+  xy: 803, 761
+  size: 200, 100
+  orig: 200, 100
+  offset: 0, 0
+  index: -1

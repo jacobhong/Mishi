@@ -1,24 +1,28 @@
 package com.hongj.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-import com.hongj.Controller.InputHandler;
-import com.hongj.Entity.Block;
-import com.hongj.Entity.BlockHandler;
 import com.hongj.Entity.Mishi;
 import com.hongj.Entity.Octopus;
+import com.hongj.Entity.Turtle;
 import com.hongj.Screens.GameScreen;
 import com.hongj.Screens.MainMenu;
+import com.hongj.mishi.Assets;
 import com.hongj.mishi.MishiGame;
+import com.hongj.Entity.TurtleHandler;
 
 public class World {
 	MishiGame game;
 	Mishi mishi;
 	Octopus octo;
 	GameState state;
-	int score;
+	int score, highscore;
 	float time;
-	private BlockHandler blockHandler;
+	private TurtleHandler TurtleHandler;
+	Sound click;
+	Preferences prefs;
 
 	public enum GameState {
 		MENU, READY, RESTART, RUNNING, PAUSED, GAMEOVER;
@@ -29,10 +33,8 @@ public class World {
 		this.game = game;
 		mishi = new Mishi(new Vector2(1, 2));
 		octo = new Octopus(new Vector2(11, 7), mishi);
-
-		Gdx.input.setInputProcessor(new InputHandler(this));
-
-		blockHandler = new BlockHandler();
+		TurtleHandler = new TurtleHandler();
+		click = Assets.click;
 
 	}
 
@@ -53,6 +55,7 @@ public class World {
 			break;
 		case PAUSED:
 			updatePause();
+			break;
 		case GAMEOVER:
 			updateGameOver();
 			break;
@@ -65,9 +68,7 @@ public class World {
 	}
 
 	private void updateReady() {
-		if (Gdx.input.justTouched()) {
-			state = GameState.RUNNING;
-		}
+
 	}
 
 	private void updateRestart() {
@@ -75,38 +76,44 @@ public class World {
 	}
 
 	private void updateRunning() {
-		blockHandler.update();
+		TurtleHandler.update();
 		time += Gdx.graphics.getDeltaTime();
 		if (time > 3) {
 			score++;
-			System.out.println(score);
 			time = 0;
 		}
 
-		if (state != GameState.GAMEOVER) {
-			float x = Gdx.input.getAccelerometerX();
-			float y = Gdx.input.getAccelerometerY();
-			float z = Gdx.input.getAccelerometerZ();
+		if (state == GameState.RUNNING) {
 			mishi.update();
 			octo.update();
 			if (mishi.getBounds().overlaps(octo.getBounds())) {
+
 				state = GameState.GAMEOVER;
 			}
-			for (Block block : blockHandler.getBlocks()) {
+			for (Turtle block : TurtleHandler.getBlocks()) {
 				if (block.getBounds().overlaps(mishi.getBounds())) {
 					state = GameState.GAMEOVER;
 				}
 			}
+
 		}
+
 	}
 
 	private void updatePause() {
-		System.out.println("pause");
-
+		
+		if (state == GameState.READY) {
+			updateReady();
+		}
 	}
 
 	private void updateGameOver() {
-		state = GameState.GAMEOVER;
+		prefs = Gdx.app.getPreferences("score");
+		highscore = prefs.getInteger("score", 0);
+		if (score > highscore) {
+			prefs.putInteger("score", score);
+			prefs.flush();
+		}
 
 	}
 
@@ -118,8 +125,8 @@ public class World {
 		return octo;
 	}
 
-	public BlockHandler getHandler() {
-		return blockHandler;
+	public TurtleHandler getHandler() {
+		return TurtleHandler;
 	}
 
 	public GameState getState() {
@@ -132,5 +139,9 @@ public class World {
 
 	public int getScore() {
 		return score;
+	}
+
+	public int getHighScore() {
+		return highscore;
 	}
 }
