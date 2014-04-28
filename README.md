@@ -6,3 +6,5 @@ The game itself is simple, it is an endless survivor game. The controls maybe ha
 
 Took some sounds and music from http://opengameart.org/users/kenney, highly recommend this website for its free resources.
 
+https://play.google.com/store/apps/details?id=com.hongj.mishi
+
